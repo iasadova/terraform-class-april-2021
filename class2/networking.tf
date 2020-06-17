@@ -24,3 +24,12 @@ resource "aws_route_table_association" "c" {
   subnet_id      = "${aws_subnet.public3.id}"
   route_table_id = "${aws_route_table.r.id}"
 }
+
+
+# resource "aws_eip" "nat" {
+#   vpc  = true
+# }
+# resource "aws_nat_gateway" "gw" {
+#   allocation_id = "${aws_eip.nat.id}"
+#   subnet_id     = "${aws_subnet.public1.id}"
+# }
