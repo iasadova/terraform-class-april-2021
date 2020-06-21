@@ -25,7 +25,7 @@ resource "aws_instance" "web" {
     connection {
         host        = "${self.public_ip}"
         type        = "ssh"
-        user        = "centos"
+        user        = "ec2-user"
         private_key = "${file("~/.ssh/id_rsa")}"
     }
     source = "testfile"
