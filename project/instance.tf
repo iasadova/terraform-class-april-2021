@@ -16,7 +16,7 @@ resource "aws_instance" "r1soft"         {
   vpc_security_group_ids      = ["${aws_security_group.allow_tls.id}"]
   provisioner   "remote-exec" {
     connection {
-        host        = "${aws_instance.r1soft.public_ip}"
+        host        = "${self.public_ip}"
         type        = "ssh"
         user        = "ec2-user"
         private_key = "${file("~/.ssh/id_rsa")}"
@@ -26,7 +26,7 @@ resource "aws_instance" "r1soft"         {
   },
   provisioner   "remote-exec" {
     connection {
-        host        = "${aws_instance.r1soft.public_ip}"
+        host        = "${self.public_ip}"
         type        = "ssh"
         user        = "ec2-user"
         private_key = "${file("~/.ssh/id_rsa")}"
