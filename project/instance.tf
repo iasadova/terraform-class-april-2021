@@ -6,7 +6,6 @@ data "aws_ami" "amazon" {
     name   = "state"
     values = ["available"]
   }
-
 }
 resource "aws_instance" "r1soft"         {
   instance_type               = "t2.micro"
