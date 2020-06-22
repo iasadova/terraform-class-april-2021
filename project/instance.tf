@@ -8,10 +8,6 @@ data "aws_ami" "amazon" {
   }
 
 }
-resource "aws_key_pair" "deployer" {
-  key_name   = "deployer-key"
-  public_key = "${file("~/.ssh/id_rsa.pub")}"
-}
 resource "aws_instance" "r1soft"         {
   instance_type               = "t2.micro"
   ami                         = "${data.aws_ami.amazon.id}"
@@ -19,21 +15,19 @@ resource "aws_instance" "r1soft"         {
   associate_public_ip_address = "true"
   subnet_id                   = "${aws_subnet.public_subnet1.id}"
   vpc_security_group_ids      = ["${aws_security_group.allow_tls.id}"]
-  
   provisioner   "remote-exec" {
     connection {
-        host        = "${self.public_ip}"
+        host        = "${aws_instance.r1soft.public_ip}"
         type        = "ssh"
         user        = "ec2-user"
         private_key = "${file("~/.ssh/id_rsa")}"
     }
-    source = "r1soft.repo"
-    destination = "/etc/yum.repos.d"
+    source      = "./project/r1soft.repo"
+    destination = "/tmp/r1soft.repo"
   },
-  
-  provisioner   "file" {
+  provisioner   "remote-exec" {
     connection {
-        host        = "${self.public_ip}"
+        host        = "${aws_instance.r1soft.public_ip}"
         type        = "ssh"
         user        = "ec2-user"
         private_key = "${file("~/.ssh/id_rsa")}"
@@ -44,6 +38,10 @@ resource "aws_instance" "r1soft"         {
       "sudo r1soft-setup --user admin --pass redhat --http-port 8080"
     ]
    }
+}
+  resource "aws_key_pair" "deployer" {
+  key_name   = "deployer-key"
+  public_key = "${file("~/.ssh/id_rsa.pub")}"
 }
 resource "aws_security_group" "allow_tls" {
   name        = "allow_tls"
