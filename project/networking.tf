@@ -1,5 +1,6 @@
 resource "aws_internet_gateway" "ig_project" {
-  vpc_id = "${aws_vpc.project.id}" }
+  vpc_id = "${aws_vpc.project.id}"
+}
 
 resource "aws_route_table" "public_rt" {
   vpc_id = "${aws_vpc.project.id}"
@@ -9,24 +10,26 @@ resource "aws_route_table" "public_rt" {
     gateway_id = "${aws_internet_gateway.ig_project.id}"
   }
 }
-  resource "aws_route_table_association" "a" {
+
+resource "aws_route_table_association" "a" {
   subnet_id      = "${aws_subnet.public_subnet1.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
 
-  resource "aws_route_table_association" "b" {
+resource "aws_route_table_association" "b" {
   subnet_id      = "${aws_subnet.public_subnet2.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
 
-  resource "aws_route_table_association" "c" {
+resource "aws_route_table_association" "c" {
   subnet_id      = "${aws_subnet.public_subnet3.id}"
   route_table_id = "${aws_route_table.public_rt.id}"
 }
 
 resource "aws_eip" "nat" {
-  vpc  = true
+  vpc = true
 }
+
 resource "aws_nat_gateway" "ng_project" {
   allocation_id = "${aws_eip.nat.id}"
   subnet_id     = "${aws_subnet.public_subnet1.id}"
@@ -36,21 +39,22 @@ resource "aws_route_table" "private_rt" {
   vpc_id = "${aws_vpc.project.id}"
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = "${aws_nat_gateway.ng_project.id}"
   }
 }
-    resource "aws_route_table_association" "d" {
+
+resource "aws_route_table_association" "d" {
   subnet_id      = "${aws_subnet.private_subnet1.id}"
   route_table_id = "${aws_route_table.private_rt.id}"
 }
 
-  resource "aws_route_table_association" "e" {
+resource "aws_route_table_association" "e" {
   subnet_id      = "${aws_subnet.private_subnet2.id}"
   route_table_id = "${aws_route_table.private_rt.id}"
 }
 
-  resource "aws_route_table_association" "f" {
+resource "aws_route_table_association" "f" {
   subnet_id      = "${aws_subnet.private_subnet3.id}"
   route_table_id = "${aws_route_table.private_rt.id}"
 }
