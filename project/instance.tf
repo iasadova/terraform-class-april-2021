@@ -14,7 +14,7 @@ resource "aws_instance" "r1soft"         {
   associate_public_ip_address = "true"
   subnet_id                   = "${aws_subnet.public_subnet1.id}"
   vpc_security_group_ids      = ["${aws_security_group.allow_tls.id}"]
-  provisioner   "remote-exec" {
+  provisioner   "file" {
     connection {
         host        = "${self.public_ip}"
         type        = "ssh"
