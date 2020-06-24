@@ -14,14 +14,14 @@ resource "aws_instance" "r1soft"         {
   associate_public_ip_address = "true"
   subnet_id                   = "${aws_subnet.public_subnet1.id}"
   vpc_security_group_ids      = ["${aws_security_group.allow_tls.id}"]
-  provisioner   "remote-exec" {
+  provisioner   "file" {
     connection {
         host        = "${self.public_ip}"
         type        = "ssh"
         user        = "ec2-user"
         private_key = "${file("~/.ssh/id_rsa")}"
     }
-    source      = "./project/r1soft.repo"
+    source      = "r1soft.repo"
     destination = "/tmp/r1soft.repo"
   },
   provisioner   "remote-exec" {
@@ -32,9 +32,10 @@ resource "aws_instance" "r1soft"         {
         private_key = "${file("~/.ssh/id_rsa")}"
     }
     inline = [
+      "sudo cp /tmp/r1soft.repo /etc/yum.repos.d/",
       "sudo yum install r1soft-cdp-enterprise-server -y",
-      "sudo /etc/init.d/cdp-agent restart",
-      "sudo r1soft-setup --user admin --pass redhat --http-port 8080"
+      "sudo r1soft-setup --user admin --pass redhat --http-port 8080",
+      "sudo /etc/init.d/cdp-server restart",
     ]
    }
 }
