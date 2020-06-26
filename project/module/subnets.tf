@@ -36,3 +36,6 @@ resource "aws_subnet" "public_subnet3" {
   cidr_block              = "${var.public_cidr_block3}"
   availability_zone       = "${var.region}c"
 }
+
+
+
