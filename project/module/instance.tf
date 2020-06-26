@@ -78,4 +78,7 @@ resource "aws_security_group" "allow_tls" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+<<<<<<< HEAD:project/module/instance.tf
 
+=======
+>>>>>>> a5624f30041ab56e7466045e42c4bc36e335e4a0:project/instance.tf
