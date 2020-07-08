@@ -9,7 +9,7 @@ terraform {
     resource_group_name       = "dev" 
     storage_account_name      = "dev1berkay" 
     container_name            = "devcontainer" 
-    access_key                = "Y9Pkd180W+x2uy6JkLFDupd/h3qWDxnwJQGYXbGbdWhaazQWxkGvNdVg7GOdAMJt2Hs4VU4QUV3BbtdmPmRF7A==" 
+    access_key                = "your access key" 
     key                       = "dev_terraform.tfstate" 
   } 
 } 
