@@ -2,7 +2,7 @@ provider "azurerm" {
   version = "1.27" 
 } 
 
-
+#cant added
 
 terraform { 
    required_version = "0.11.14"
